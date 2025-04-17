@@ -12,7 +12,12 @@ function Freebook() {
   useEffect(() => {
     const getBook = async () => {
       try {
+<<<<<<< HEAD
         const res = await axios.get("http://localhost:4001/book");
+=======
+        const res = await axios.get("mongodb://localhost:27017/bookStore/book");
+
+>>>>>>> 551c4a0ec72b1b88c65c66625aa9f6e55e663c48
         const data = res.data.filter((data) => data.category === "Free");
         setBook(data);
       } catch (error) {
