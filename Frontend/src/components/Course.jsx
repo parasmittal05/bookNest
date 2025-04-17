@@ -2,44 +2,57 @@ import React, { useEffect, useState } from "react";
 import Cards from "./Cards";
 import axios from "axios";
 import { Link } from "react-router-dom";
+
 function Course() {
-  const [book, setBook] = useState([]);
+  const [books, setBooks] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
   useEffect(() => {
-    const getBook = async () => {
+    const getBooks = async () => {
       try {
         const res = await axios.get("http://localhost:4001/book");
         console.log(res.data);
-        setBook(res.data);
+        setBooks(res.data);
       } catch (error) {
-        console.log(error);
+        console.error("Failed to fetch books:", error);
+        setError("Failed to fetch books. Please try again later.");
+      } finally {
+        setLoading(false);
       }
     };
-    getBook();
+    getBooks();
   }, []);
+
+  if (loading) return <p>Loading...</p>;
+  if (error) return <p className="text-red-500">{error}</p>;
+
   return (
-    <>
-      <div className=" max-w-screen-2xl container mx-auto md:px-20 px-4">
-        <div className="mt-28 items-center justify-center text-center">
-          <h1 className="text-2xl  md:text-4xl">
-            We're delighted to have you{" "}
-            <span className="text-pink-500"> Here! :)</span>
-          </h1>
-          <p className="mt-12">
+    <div className="max-w-screen-2xl container mx-auto md:px-20 px-4">
+      <div className="mt-28 items-center justify-center text-center">
+        <h1 className="text-2xl md:text-4xl">
+          We're delighted to have you{" "}
+          <span className="text-pink-500">Here! :)</span>
+        </h1>
+        <p className="mt-12">
           Embark on a journey of knowledge, with courses tailored to ignite your intellect's flame. From creative writing to quantum mechanics, unlock new horizons within our curated curriculum's domain..!
-          </p>
-          <Link to="/">
-            <button className="mt-6 bg-pink-500 text-white px-4 py-2 rounded-md hover:bg-pink-700 duration-300">
-              Back
-            </button>
-          </Link>
-        </div>
-        <div className="mt-12 grid grid-cols-1 md:grid-cols-4">
-          {book.map((item) => (
-            <Cards key={item.id} item={item} />
-          ))}
-        </div>
+        </p>
+        <Link to="/">
+          <button className="mt-6 bg-pink-500 text-white px-4 py-2 rounded-md hover:bg-pink-700 duration-300">
+            Back
+          </button>
+        </Link>
       </div>
-    </>
+      <div className="mt-12 grid grid-cols-1 md:grid-cols-4 gap-4">
+        {books.length > 0 ? (
+          books.map((item) => (
+            <Cards key={item.id} item={item} />
+          ))
+        ) : (
+          <p>No books available at the moment.</p>
+        )}
+      </div>
+    </div>
   );
 }
 

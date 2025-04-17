@@ -1,36 +1,39 @@
-import express from "express";
-import mongoose from "mongoose";
-import dotenv from "dotenv";
-import cors from "cors";
+import express from 'express';
+import mongoose from 'mongoose';
+import dotenv from 'dotenv';
+import cors from 'cors';
 
-import bookRoute from "./route/book.route.js";
-import userRoute from "./route/user.route.js";
+// Import routes
+import bookRoute from './route/book.route.js';
+import userRoute from './route/user.route.js';
+
+// Initialize dotenv
+dotenv.config();
 
 const app = express();
 
-app.use(cors());
-app.use(express.json());
+// CORS configuration
+const corsOptions = {
+    origin: process.env.FRONTEND_URL || 'http://localhost:5173', // Allow frontend to access
+    methods: 'GET,POST,PUT,DELETE,PATCH,HEAD',
+    credentials: true,
+};
 
-dotenv.config();
+app.use(cors(corsOptions)); // Use CORS middleware
+app.use(express.json()); // Parse incoming JSON requests
 
-const PORT = process.env.PORT || 4000;
-const URI = process.env.MongoDBURI;
+// Set up MongoDB connection
+const URI = process.env.MONGODB_URI;
 
-// connect to mongoDB
-try {
-    mongoose.connect(URI, {
-        useNewUrlParser: true,
-        useUnifiedTopology: true,
-    });
-    console.log("Connected to mongoDB");
-} catch (error) {
-    console.log("Error: ", error);
-}
+mongoose.connect(URI)
+    .then(() => {
+        console.log('Connected to MongoDB');
+        app.listen(process.env.PORT || 4001, () => {
+            console.log(`Server running on port ${process.env.PORT || 4001}`);
+        });
+    })
+    .catch((error) => console.error('MongoDB connection error:', error));
 
-// defining routes
-app.use("/book", bookRoute);
-app.use("/user", userRoute);
-
-app.listen(PORT, () => {
-    console.log(`Server is listening on port ${PORT}`);
-});
+// Set up routes
+app.use('/user', userRoute);
+app.use('/book', bookRoute);

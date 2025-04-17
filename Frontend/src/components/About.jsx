@@ -35,7 +35,11 @@ const AboutPage = () => {
               </div>
             </div>
             <div className="w-full md:w-1/2 mt-12 md:mt-0"> {/* Image */}
-              <img src={banner} alt="Bookstore banner image" className="max-w-md" />
+              <img
+                src={banner}
+                alt="Bookstore banner"
+                className="w-full h-auto max-w-md mx-auto"
+              />
             </div>
           </div>
         </div>
