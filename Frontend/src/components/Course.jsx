@@ -11,7 +11,7 @@ function Course() {
   useEffect(() => {
     const getBooks = async () => {
       try {
-        const res = await axios.get("https://booknest-backend-xbka.onrender.com/book");
+        const res = await axios.get("https://booknest-eiuc.onrender.com/book");
         console.log(res.data);
         setBooks(res.data);
       } catch (error) {
