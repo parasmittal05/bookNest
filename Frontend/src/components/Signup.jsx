@@ -22,6 +22,39 @@ function Signup() {
       email: data.email,
       password: data.password,
     };
+<<<<<<< HEAD
+=======
+    await axios
+      .post("https://booknest-bac.onrender.com/user/signup", userInfo)
+      .then((res) => {
+        console.log(res.data);
+        if (res.data) {
+          toast.success("Signup Successfully");
+          navigate(from, { replace: true });
+        }
+        localStorage.setItem("Users", JSON.stringify(res.data.user));
+      })
+      .catch((err) => {
+        if (err.response) {
+          console.log(err);
+          toast.error("Error: " + err.response.data.message);
+        }
+      });
+  };
+  return (
+    <>
+      <div className="flex h-screen items-center justify-center">
+        <div className=" w-[600px] ">
+          <div className="modal-box">
+            <form onSubmit={handleSubmit(onSubmit)} method="dialog">
+              {/* if there is a button in form, it will close the modal */}
+              <Link
+                to="/"
+                className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2"
+              >
+                ✕
+              </Link>
+>>>>>>> 3ca5a3f518893a2a66db6a3b43a9f1abbb43bf55
 
     try {
       const res = await axios.post(
