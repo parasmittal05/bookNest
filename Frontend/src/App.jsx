@@ -15,12 +15,14 @@ function App() {
       <div className="dark:bg-slate-900 dark:text-white">
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/about" element={<About/>} />
+      
           <Route
             path="/course"
             element={authUser ? <Courses /> : <Navigate to="/signup" />}
           />
           <Route path="/signup" element={<Signup />} />
+
+              <Route path="/about" element={<About/>} />
         </Routes>
         <Toaster />
       </div>
