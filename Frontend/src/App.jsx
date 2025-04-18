@@ -9,14 +9,13 @@ import { useAuth } from "./context/AuthProvider";
 
 function App() {
   const [authUser, setAuthUser] = useAuth();
-  console.log(authUser); // Debugging authUser
-
+  console.log(authUser);
   return (
     <>
       <div className="dark:bg-slate-900 dark:text-white">
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/about" element={<About />} />
+          <Route path="/about" element={<About/>} />
           <Route
             path="/course"
             element={authUser ? <Courses /> : <Navigate to="/signup" />}
